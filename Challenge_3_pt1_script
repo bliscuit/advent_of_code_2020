@@ -1,0 +1,23 @@
+$file = Get-Content C:\Users\cesamps\Desktop\map.txt
+$fileLength = $file.Length
+$column = 0
+$row = 0
+$trees = 0
+$laLength = 31
+
+while ($fileLength -gt $row + 1)
+{
+    $row = $row + 1
+    $column = $column + 3
+    if($column -ge $laLength)
+    {
+        $column = $column - $laLength
+    }
+    $lineArray = ($file | Select -Index $row).ToCharArray()
+    $location = $lineArray[$column]
+    if($location -eq "#")
+    {
+        $trees = $trees + 1
+    }
+}
+Write-Host "You hit" $trees "trees."
