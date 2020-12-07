@@ -1,0 +1,20 @@
+$validCount = 0
+
+foreach($line in Get-Content C:\Users\cesamps\Desktop\passwords.txt)
+{
+    $lineArray = $line.Split(" ")
+    $numArray = $lineArray[0].Split("-")
+    $lower = [int]$numArray[0]
+    $upper = [int]$numArray[1]
+    $req = $lineArray[1].Trim(":")
+    $password = $lineArray[2]
+    $first = $lower - 1
+    $second = $upper - 1
+
+    $passArray = ($password.ToCharArray())
+    if(($passArray[$first] -eq $req) -XOR ($passArray[$second] -eq $req))
+    {
+        $validCount = $validCount + 1
+    }
+}
+$validCount
