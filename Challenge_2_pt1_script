@@ -1,0 +1,18 @@
+$validCount = 0
+
+foreach($line in Get-Content C:\Users\cesamps\Desktop\passwords.txt)
+{
+    $lineArray = $line.Split(" ")
+    $numArray = $lineArray[0].Split("-")
+    $lower = [int]$numArray[0]
+    $upper = [int]$numArray[1]
+    $req = $lineArray[1].Trim(":")
+    $password = $lineArray[2]
+
+    $charCount = ($password.ToCharArray() | Where-Object {$_ -EQ $req} | Measure-Object).Count
+    if(($charCount -ge $lower) -AND ($charCount -le $upper))
+    {
+        $validCount = $validCount + 1
+    }
+}
+$validCount
