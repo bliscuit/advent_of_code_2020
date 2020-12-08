@@ -1,0 +1,33 @@
+$file = Get-Content C:\Users\cesamps\Desktop\passports.txt
+
+$array=@{}
+$valid=0
+
+foreach($line in $file)
+{
+    if($line -eq "")
+    {
+        #see if all required things are present in current array
+        if(($array["byr"] -ge 1920) -AND ($array["byr"] -le 2002) -AND ($array["iyr"] -ge 2010) -AND ($array["iyr"] -le 2020) -AND ($array["eyr"] -ge 2020) -AND ($array["eyr"] -le 2030) -AND (($array["hgt"] -match '^1[5-8][0-9]cm|^19[0-3]cm$') -OR ($array["hgt"] -match '^59in$|^6[0-9]in$|^7[0-6]in$')) -AND ($array["hcl"] -match '^#[0-9a-f]{6}$') -AND ($array["ecl"] -match '^amb$|^blu$|^brn$|^gry$|^grn$|^hzl$|^oth$') -AND ($array["pid"] -match '^[0-9]{9}$'))
+        {
+            $valid += 1
+        }
+        else
+        {
+            $invalid += 1
+        }
+        $array=@{}
+    }
+    else
+    {
+        $stuff = $line.Split(" ")
+        foreach($thing in $stuff)
+        {
+            $key = $thing.Split(":")[0]
+            $value = $thing.Split(":")[1]
+            $array.Add($key, $value)
+        }
+    }
+}
+
+$valid
