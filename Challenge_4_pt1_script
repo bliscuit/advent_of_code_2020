@@ -1,0 +1,35 @@
+## ENSURE INPUT FILE HAS A FEW EXTRA NEWLINES AT THE END :/
+
+$file = passports.txt
+
+$array=@{}
+$valid=0
+
+foreach($line in $file)
+{
+    if($line -eq "")
+    {
+        #see if all required things are present in current array
+        if(($array["eyr"] -ne $null) -AND ($array["byr"] -ne $null) -AND ($array["iyr"] -ne $null) -AND ($array["hgt"] -ne $null) -AND ($array["hcl"] -ne $null) -AND ($array["ecl"] -ne $null)-AND ($array["pid"] -ne $null))
+        {
+            $valid += 1
+        }
+        else
+        {
+            $invalid += 1
+        }
+        $array=@{}
+    }
+    else
+    {
+        $stuff = $line.Split(" ")
+        foreach($thing in $stuff)
+        {
+            $key = $thing.Split(":")[0]
+            $value = $thing.Split(":")[1]
+            $array.Add($key, $value)
+        }
+    }
+}
+
+$valid
