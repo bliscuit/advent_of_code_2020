@@ -1,0 +1,89 @@
+$seats = (Get-Content C:\Users\cesamps\Desktop\seats.txt)
+$allSeats=@()
+
+foreach($seatCode in $seats)
+{
+    $seatCodeArray = $seatCode.ToCharArray()
+    $row = $seatCodeArray[0..6]
+    $column = $seatCodeArray[7..9]
+    $rowArray=(0..127)
+    $columnArray=(0..7)
+    while ($rowArray.Length -gt 1)
+    {
+        foreach($char in $row)
+        {
+            $lenArray = $rowArray.Length
+            $halfLen = $lenArray/2
+            $first = $halfLen - 1
+            $last = $lenArray - 1
+            $firstHalf = $rowArray[0..$first]
+            $lastHalf = $rowArray[$halfLen..$last]
+            if($char -eq "F")
+            {
+                $rowArray=$firstHalf
+            }
+            elseif($char -eq "B")
+            {
+                $rowArray=$lastHalf
+            }
+            else
+            {
+                "Something went wrong..."
+            }
+        }
+    }
+
+
+    while ($columnArray.Length -gt 1)
+    {
+        foreach($char in $column)
+        {
+            $lenArray = $columnArray.Length
+            $halfLen = $lenArray/2
+            $first = $halfLen - 1
+            $last = $lenArray - 1
+            $firstHalf = $columnArray[0..$first]
+            $lastHalf = $columnArray[$halfLen..$last]
+            if($char -eq "L")
+            {
+                $columnArray=$firstHalf
+            }
+            elseif($char -eq "R")
+            {
+                $columnArray=$lastHalf
+            }
+            else
+            {
+                "Something went wrong..."
+            }
+        }
+    }
+    [int]$finalRow=$rowArray[0]
+    [int]$finalColumn = $columnArray[0]
+    $seatID = ($finalRow * 8) + $finalColumn
+    $allSeats += $seatID
+}
+
+$allSeats | measure -Maximum
+
+
+for ($i=0; $i -le 7; $i+=1) 
+{
+    for ($j=0; $j -le 1277; $j+=1)
+    {
+        $currentSeat = $j * 8 + $i
+        if($allSeats -contains $currentSeat)
+        {
+            
+        }
+        else
+        {
+            $seatUp = $currentSeat + 1
+            $seatDown = $currentSeat - 1
+            if (($allSeats -contains $seatUp) -AND ($allSeats -contains $seatDown))
+            {
+                Write-Host "Your seat ID is " $currentSeat
+            }
+        }
+    }
+}
