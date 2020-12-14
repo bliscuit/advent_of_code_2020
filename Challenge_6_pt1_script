@@ -1,0 +1,38 @@
+$file=(Get-Content C:\Users\cesamps\Desktop\questions.txt)
+$fullArray=@()
+$charArray=@()
+$numArray=@()
+
+foreach($line in $file)
+{
+    if($line -eq "")
+    {
+        #get length of fullarray, add 1, and add number to numarray
+        #reset all arrays
+        $number = $fullArray.Length
+        $numArray += $number
+        $fullArray=@()
+        $charArray=@()
+        
+    }
+    else
+    {
+        #for each char in chararray, if not already in array, add to full array. Else, skip.
+        $charArray = $line.ToCharArray()
+        foreach($char in $charArray)
+        {
+            if($fullArray -notcontains $char)
+            {
+                $fullArray += $char
+            }
+        }
+    }
+}
+
+$count=0
+foreach($num in $numArray)
+{
+    $count += $num
+}
+
+$count
