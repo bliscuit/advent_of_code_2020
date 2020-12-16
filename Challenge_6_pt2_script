@@ -1,0 +1,71 @@
+#Ensure input file has new lines at end
+
+$file=(Get-Content C:\Users\cesamps\Desktop\questions.txt)
+
+$numArray=@()
+
+$fullArray=@()
+$charArray=@()
+$lineCount=0
+$groupHash=@{}
+$allArray=@()
+
+foreach($line in $file)
+{
+    if($line -eq "")
+    {
+        #get length of fullarray, add 1, and add number to numarray
+        #reset all arrays
+        #$number = $fullArray.Length
+        #$numArray += $number
+
+        foreach($item in $fullArray)
+        {
+            $tempCount=0
+            $hashCount=$groupHash.Count
+            foreach($key in $groupHash.Keys) 
+            {
+                if($groupHash.Item($key) -contains $item)
+                {
+                    $tempCount += 1
+                }
+            }
+            if($tempCount -eq $hashCount)
+            {
+                $allArray += $item
+            }
+        }
+
+        $number = $allArray.Length
+        $numArray += $number
+
+        $lineCount=0
+        $groupHash=@{}
+        $fullArray=@()
+        $charArray=@()
+        $allArray=@()
+        
+    }
+    else
+    {
+        #for each char in chararray, if not already in array, add to full array. Else, skip.
+        $charArray = $line.ToCharArray()
+        $groupHash.Add($lineCount,$charArray)
+        foreach($char in $charArray)
+        {
+            if($fullArray -notcontains $char)
+            {
+                $fullArray += $char
+            }
+        }
+        $lineCount += 1
+    }
+}
+
+$count=0
+foreach($num in $numArray)
+{
+    $count += $num
+}
+
+$count
