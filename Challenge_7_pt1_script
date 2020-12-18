@@ -1,5 +1,7 @@
 ## REALLY bad and inefficient. But it works. Just let it run for a few seconds before stopping.
+## Once CTRL+C'd, do a $bags.Count command to get the total. But it includes the shiny gold bag, so minus one for answer
 ## Could be made more efficient with hashtables (color=0, value of 0 means not checked) but I had a hard time with that. 
+
 
 $file=(Get-Content C:\Users\cesamps\Desktop\colors.txt)
 
