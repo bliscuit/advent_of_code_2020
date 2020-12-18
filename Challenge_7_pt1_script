@@ -1,0 +1,28 @@
+## REALLY bad and inefficient. But it works. Just let it run for a few seconds before stopping.
+## Could be made more efficient with hashtables (color=0, value of 0 means not checked) but I had a hard time with that. 
+
+$file=(Get-Content C:\Users\cesamps\Desktop\colors.txt)
+
+$bags=@("shiny gold")
+$separator="bags contain"
+
+while(1 -eq 1)
+{
+    foreach($key in $bags)
+    {
+        foreach($line in $file)
+        {
+            $splitLine = $line -split $separator
+            $color =  $splitLine[0]
+            $contents = $splitLine[1]
+            if($contents -like "*$key*")
+            {
+                if($bags -notcontains $color)
+                {
+                    $bags += $color
+                }
+            }
+        }
+    }
+}
+
